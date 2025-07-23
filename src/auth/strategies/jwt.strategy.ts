@@ -18,7 +18,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       algorithms: ['HS256'],
     });
   }
+
   async validate(payload: JwtPayload) {
-    return await this.authService.validate(payload.id);
+    const user = await this.authService.validate(payload.id);
+    // Возвращаем объект с id пользователя
+    return {
+      id: user.id,
+      email: user.email,
+    };
   }
 }
